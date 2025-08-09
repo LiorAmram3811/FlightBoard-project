@@ -5,7 +5,7 @@ export interface FlightDto {
   id: number;
   flightNumber: string;
   destination: string;
-  departureTime: string; // ISO string (server returns Israel time per your backend mapping)
+  departureTime: string;
   gate: string;
   status: FlightStatus;
 }
@@ -13,7 +13,6 @@ export interface FlightDto {
 export interface CreateFlightDto {
   flightNumber: string;
   destination: string;
-  // If sending Israel local with offset, prefer DateTimeOffset → ISO with +02/+03
   departureTime: string;
   gate: string;
 }

@@ -99,8 +99,8 @@ namespace FlightBoard.API.Controllers
             {
                 filtered = filtered.Where(f => f.Status == statusEnum);
             }
-
-            return Ok(filtered);
+            var result = _mapper.Map<IEnumerable<FlightDto>>(filtered);
+            return Ok(result);
         }
     }
 }

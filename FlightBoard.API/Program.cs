@@ -41,11 +41,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseCors(FrontendDevCors);
-
 app.MapHub<FlightHub>("/hubs/flights").RequireCors(FrontendDevCors);
-
 app.MapControllers().RequireCors(FrontendDevCors);
-app.MapHub<FlightHub>("/flightHub");
 
 // Auto-migrate DB at startup (inside container too)
 using (var scope = app.Services.CreateScope())

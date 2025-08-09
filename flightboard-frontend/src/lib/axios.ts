@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const http = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_DOCKER,
+  baseURL: import.meta.env.VITE_API_BASE,
   headers: { "Content-Type": "application/json" },
   timeout: 15_000,
 });

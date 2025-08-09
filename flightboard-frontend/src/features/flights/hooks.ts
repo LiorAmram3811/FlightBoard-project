@@ -1,17 +1,26 @@
 // Purpose: React Query hooks to manage server-state for flights.
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { fetchFlights, createFlight, deleteFlight } from "./api";
-import { queryClient } from "../../app/queryClient";
-import type { CreateFlightDto } from "../../shared/types/flights";
+import { fetchFlights, createFlight, deleteFlight, searchFlights } from "./api";
+import { queryClient } from "../../store/queryClient";
+import type { CreateFlightDto } from "../../features/flights/types";
 
 const keys = {
   flights: ["flights"] as const,
 };
 
-export function useFlights() {
+export function useFlights(filters?: {
+  status?: string;
+  destination?: string;
+}) {
   return useQuery({
-    queryKey: keys.flights,
-    queryFn: fetchFlights,
+    queryKey:
+      filters && (filters.status || filters.destination)
+        ? ["flights", filters]
+        : ["flights"],
+    queryFn: () =>
+      filters && (filters.status || filters.destination)
+        ? searchFlights(filters)
+        : fetchFlights(),
   });
 }
 

@@ -1,9 +1,16 @@
 // Purpose: Table rendering of flights with Israel-time date formatting.
 import { useFlights, useDeleteFlight } from "../features/flights/hooks";
 import { StatusBadge } from "./StatusBadge";
+import { toast } from "react-toastify";
+import type { RootState } from "../store/store";
+import { useSelector } from "react-redux";
 
 export default function FlightTable() {
-  const { data, isLoading, isError } = useFlights();
+  const filters = useSelector((s: RootState) => s.filters);
+  const { data, isLoading, isError } = useFlights({
+    status: filters.status || undefined,
+    destination: filters.destination || undefined,
+  });
   const del = useDeleteFlight();
 
   if (isLoading) return <div className="p-4">Loading flights…</div>;
@@ -17,7 +24,7 @@ export default function FlightTable() {
           <tr className="text-left border-b">
             <th className="p-2">Flight</th>
             <th className="p-2">Destination</th>
-            <th className="p-2">Departure (IL)</th>
+            <th className="p-2">Departure (UTC)</th>
             <th className="p-2">Gate</th>
             <th className="p-2">Status</th>
             <th className="p-2" />
@@ -35,8 +42,20 @@ export default function FlightTable() {
               </td>
               <td className="p-2 text-right">
                 <button
-                  onClick={() => del.mutate(f.id)}
                   className="px-2 py-1 rounded bg-red-600 text-white text-sm hover:bg-red-700"
+                  onClick={() => {
+                    if (
+                      !confirm(
+                        "Clicking ok would delete this flight permanently."
+                      )
+                    )
+                      return;
+                    del.mutate(f.id, {
+                      onSuccess: () =>
+                        toast.success("Flight deleted successfully"),
+                      onError: () => toast.error("Failed to delete flight"),
+                    });
+                  }}
                 >
                   Delete
                 </button>

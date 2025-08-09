@@ -1,5 +1,5 @@
 // Purpose: Tiny presentational badge for flight status.
-import type { FlightStatus } from "../shared/types/flights";
+import type { FlightStatus } from "../features/flights/types";
 
 export function StatusBadge({ status }: { status: FlightStatus }) {
   const color =
