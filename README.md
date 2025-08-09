@@ -164,6 +164,9 @@ Server emits: `FlightAdded`, `FlightDeleted`, `FlightStatusUpdated`.
 * **SignalR fails**: verify hub URL and ports.
 
 ---
+## UI Example
+<img width="1055" height="860" alt="image" src="https://github.com/user-attachments/assets/1b315605-d3ae-4f0a-8a0b-8ec5abec365f" />
+
 
 © 2025 FlightBoard
 
