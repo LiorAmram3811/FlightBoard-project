@@ -4,6 +4,7 @@ import { StatusBadge } from "./StatusBadge";
 import { toast } from "react-toastify";
 import type { RootState } from "../store/store";
 import { useSelector } from "react-redux";
+import { formatLocalDateTime } from "../lib/datetime";
 
 export default function FlightTable() {
   const filters = useSelector((s: RootState) => s.filters);
@@ -35,7 +36,7 @@ export default function FlightTable() {
             <tr key={f.id} className="border-b hover:bg-gray-50">
               <td className="p-2 font-medium">{f.flightNumber}</td>
               <td className="p-2">{f.destination}</td>
-              <td className="p-2">{f.departureTime}</td>
+              <td>{formatLocalDateTime(f.departureTime)}</td>
               <td className="p-2">{f.gate}</td>
               <td className="p-2">
                 <StatusBadge status={f.status} />
