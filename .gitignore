@@ -1,0 +1,41 @@
+# --- .NET ---
+**/bin/
+**/obj/
+*.user
+*.rsuser
+*.suo
+*.userprefs
+*.cache
+*.log
+*.lock.json
+
+# --- VS/IDE ---
+.vs/
+.idea/
+*.code-workspace
+
+# --- Node / Frontend ---
+flightboard-frontend/node_modules/
+flightboard-frontend/.parcel-cache/
+flightboard-frontend/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Environment files (DON'T COMMIT SECRETS) ---
+*.env
+*.env.*
+!.env.example
+VITE_API_BASE=""
+# --- OS / Misc ---
+.DS_Store
+Thumbs.db
+
+# --- Docker ---
+# named volumes are not in repo, but ignore any local bind-mount folders if present
+mssql_data/
+*.db
+
+# --- Coverage / Tests ---
+coverage/
+TestResults/

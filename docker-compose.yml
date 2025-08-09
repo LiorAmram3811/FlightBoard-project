@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: flightboard_db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=FlightBoard_DB2025!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'FlightBoard_DB2025!' -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  api:
+    build:
+      context: .
+      dockerfile: FlightBoard.API/Dockerfile
+    container_name: flightboard_api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # IMPORTANT: API will use this connection string (matches Program.cs key)
+      - ConnectionStrings__FlightBoardDbConnectionString=Server=db;Database=FlightBoardDB;User Id=sa;Password=FlightBoard_DB2025!;TrustServerCertificate=True;Encrypt=False
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:8080"
+
+  web:
+    build:
+      context: ./flightboard-frontend
+      dockerfile: Dockerfile
+    container_name: flightboard_web
+    depends_on:
+      - api
+    ports:
+      - "5173:80"
+
+volumes:
+  mssql_data:

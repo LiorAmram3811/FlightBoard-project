@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FlightBoard.Domain.Models.DTOs
+{
+    public class FlightDto
+    {
+        public int Id { get; set; }
+        public string FlightNumber { get; set; } = null!;
+        public string Destination { get; set; } = null!;
+        public DateTime DepartureTime { get; set; }
+        public string Gate { get; set; } = null!;
+        public string Status { get; set; } = null!;
+    }
+}
