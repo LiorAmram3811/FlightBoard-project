@@ -3,7 +3,8 @@
 
 A full‑stack flight board: **ASP.NET Core 8** backend with **SQL Server + EF Core**, **SignalR** live updates, and a **React 19 + Vite + Tailwind** frontend. Comes with **Docker Compose** for a one‑command local stack.
 
-> **TL;DR** — Docker Compose will start SQL Server, the API, and the web app (served by Nginx). Your browser talks to the web app on **http://localhost:5173**, and the API is on **http://localhost:8080** (also proxied under `/api` from the web container).
+> Docker Compose will start SQL Server, the API, and the web app (served by Nginx). Your browser talks to the web app on **http://localhost:5173**, and the API is on **http://localhost:8080** 
+(also proxied under `/api` from the web container).
 
 ---
 
@@ -37,8 +38,6 @@ Compose spins up three services:
 * **web** — Built React app served by **Nginx** on **5173**
 
   * Proxies `/api/*` and `/hubs/*` to the **api** service (websockets enabled)
-
-> **Security note:** Never commit real passwords to Git. Use a `.env` file (ignored by Git) to store secrets.
 
 ### 2) Open the apps
 
@@ -76,7 +75,7 @@ docker compose up -d --build
    dotnet restore
    dotnet run --project FlightBoard.API
    ```
-4. Browse Swagger at [http://localhost:8080/swagger](http://localhost:8080/swagger).
+4. Browse Swagger at [http://localhost:{YOUR_LOCAL_PORT}/swagger](http://localhost:{YOUR_LOCAL_PORT}/swagger).
 
 ### Frontend (React + Vite)
 
@@ -84,8 +83,8 @@ docker compose up -d --build
 2. Configure env in `flightboard-frontend/.env`:
 
    ```env
-   VITE_API_BASE=http://localhost:8080
-   VITE_HUB_URL=http://localhost:8080/hubs/flights
+   VITE_API_BASE=http://localhost:{YOUR_LOCAL_PORT}
+   VITE_HUB_URL=http://localhost:{YOUR_LOCAL_PORT}/hubs/flights
    ```
 3. Install & run:
 
@@ -94,7 +93,7 @@ docker compose up -d --build
    npm ci
    npm run dev
    ```
-4. Open [http://localhost:5173](http://localhost:5173)
+4. Open [http://localhost:5173](http://localhost:{YOUR_LOCAL_PORT})
 
 ---
 
@@ -141,7 +140,7 @@ Server emits: `FlightAdded`, `FlightDeleted`, `FlightStatusUpdated`.
 
 * AutoMapper.Extensions.Microsoft.DependencyInjection
 * Microsoft.AspNetCore.SignalR
-* Microsoft.EntityFrameworkCore (SqlServer, Sqlite, Design)
+* Microsoft.EntityFrameworkCore
 * Microsoft.OpenApi & Swashbuckle.AspNetCore
 * Newtonsoft.Json
 * FluentValidation
@@ -168,5 +167,3 @@ Server emits: `FlightAdded`, `FlightDeleted`, `FlightStatusUpdated`.
 
 © 2025 FlightBoard
 
-```
-```
