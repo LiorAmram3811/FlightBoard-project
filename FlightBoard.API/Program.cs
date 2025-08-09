@@ -17,6 +17,7 @@ builder.Services.AddSingleton<FlightStatusCalculator>();
 builder.Services.AddSingleton<FlightValidator>();
 
 builder.Services.AddSignalR();
+builder.Services.AddHostedService<FlightStatusBroadcastService>();
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(Program));
 

@@ -14,6 +14,9 @@ export function startFlightsLiveUpdates(queryClient: QueryClient) {
 
   connection.on("FlightAdded", refresh);
   connection.on("FlightDeleted", refresh);
+  connection.on("FlightStatusUpdated", () => {
+    queryClient.invalidateQueries({ queryKey: ["flights"] });
+  });
 
   connection.start().catch((err) => {
     console.error("SignalR connection failed:", err);
